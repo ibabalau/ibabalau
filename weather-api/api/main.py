@@ -122,11 +122,7 @@ def add_country():
     for param in json_params:
         if param not in payload:
             return Response(status=400)
-    if not isValidFloat(payload['lat']):
-        return Response(status=400)
-    elif not isValidFloat(payload['lon']):
-        return Response(status=400)
-    elif not isStr(payload['nume']):
+    if not isValidFloat(payload['lat']) or not isValidFloat(payload['lon']) or not isStr(payload['nume']):
         return Response(status=400)
     cmd = """INSERT INTO tari(nume, lat, lon)
                  VALUES(%s, %s, %s) RETURNING id;"""
@@ -152,13 +148,8 @@ def add_city():
     for param in json_params:
         if param not in payload:
             return Response(status=400)
-    if not isValidFloat(payload['lat']):
-        return Response(status=400)
-    elif not isValidFloat(payload['lon']):
-        return Response(status=400)
-    elif not isStr(payload['nume']):
-        return Response(status=400)
-    elif not isInt(payload['idTara']):
+    if not isValidFloat(payload['lat']) or not isValidFloat(payload['lon']) 
+        or not isStr(payload['nume']) or not isInt(payload['idTara']):
         return Response(status=400)
     # add to db
     if check_country_id(payload['idTara']) == -1:
@@ -187,9 +178,7 @@ def add_temp():
     for param in json_params:
         if param not in payload:
             return Response(status=400)
-    if not isInt(payload['idOras']):
-        return Response(status=400)
-    elif not isValidFloat(payload['valoare']):
+    if not isInt(payload['idOras']) or not isValidFloat(payload['valoare']):
         return Response(status=400)
     if check_city_id(payload['idOras']) == -1:
         return Response(status=404)
@@ -272,13 +261,8 @@ def modify_country(id):
             return Response(status=400)
     if id != payload['id']:
         return Response(status=400)
-    if not isValidFloat(payload['lat']):
-        return Response(status=400)
-    elif not isValidFloat(payload['lon']):
-        return Response(status=400)
-    elif not isInt(payload['id']):
-        return Response(status=400)
-    elif not isStr(payload['nume']):
+    if not isValidFloat(payload['lat']) or not isValidFloat(payload['lon']) 
+        or not isInt(payload['id']) or not isStr(payload['nume']):
         return Response(status=400)
     # modify in db
     cmd = """   UPDATE tari
@@ -303,15 +287,8 @@ def modify_city(id):
             return Response(status=400)
     if id != payload['id']:
         return Response(status=400)
-    if not isValidFloat(payload['lat']):
-        return Response(status=400)
-    elif not isValidFloat(payload['lon']):
-        return Response(status=400)
-    elif not isInt(payload['id']):
-        return Response(status=400)
-    elif not isInt(payload['idTara']):
-        return Response(status=400)
-    elif not isStr(payload['nume']):
+    if not isValidFloat(payload['lat']) or not isValidFloat(payload['lon']) 
+       or not isInt(payload['id']) or not isInt(payload['idTara']) or not isStr(payload['nume']):
         return Response(status=400)
     # check for conflicts
     ret = (payload['idTara'], payload['nume'])
@@ -339,11 +316,7 @@ def modify_temp(id):
             return Response(status=400)
     if id != payload['id']:
         return Response(status=400)
-    if not isInt(payload['idOras']):
-        return Response(status=400)
-    elif not isInt(payload['id']):
-        return Response(status=400)
-    elif not isValidFloat(payload['valoare']):
+    if not isInt(payload['idOras']) or not isInt(payload['id']) or not isValidFloat(payload['valoare']):
         return Response(status=400)
     # modify in db
     cmd = """ UPDATE temperaturi
