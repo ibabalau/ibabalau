@@ -1,0 +1,2 @@
+Flask for backend, Postgresql for DB, Adminer for managing the db.
+Server running on port 5000, adminer on 8080, localhost.
